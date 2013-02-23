@@ -14,7 +14,7 @@ Here comes a quick code sample. Sorry, currently no detailed docs.
 
 That should create nice date/time picker for User#notify_at. 
 
-Associated column in the DB should can have type of :integer with limit set to 6 or :time. It has to be nullable.
+Associated column in the DB should can have type of :time. It has to be nullable.
 
 To delete previously stored time just make all fields blank (hour and minute).
 
@@ -48,7 +48,7 @@ To delete previously stored time just make all fields blank (hour and minute).
     just_define_time_picker :notify_at, :add_to_attr_accessible => true
   end
   
-You must place "mongoid" gem BEFORE "just-datetime-picker" gem in your Gemfile!
+You must place "mongoid" gem BEFORE "just-time-picker" gem in your Gemfile!
 
 === ActiveAdmin
 
