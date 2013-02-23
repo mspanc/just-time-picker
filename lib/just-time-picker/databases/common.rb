@@ -40,6 +40,21 @@ module Just
               DataTypes::Time.new read_attribute(field_name)
             end
 
+            define_method "#{field_name}=" do |v|
+              if v.is_a? DataTypes::Time
+                send "#{field_name}_hour=",   v.hour
+                send "#{field_name}_minute=", v.min
+                
+              elsif v.is_a? String
+                raise AttributeError, "If you pass a string to #{field_name}=, the only accepted format is HH:MM:SS" unless v =~ /^([0-2][0-9]):([0-5][0-9]):([0-5][0-9])$/
+                send "#{field_name}_hour=",   $1
+                send "#{field_name}_minute=", $2
+
+              else
+                super v
+              end
+            end
+
 
             define_method "#{field_name}_hour" do 
               if instance_variable_get("@#{field_name}_hour")
@@ -111,7 +126,7 @@ module Just
               begin
                 Time.zone.parse(combined)
 
-                self.send("#{field_name}=", combined)
+                write_attribute field_name, combined
 
               rescue ArgumentError
                 logger.warn "Just error while trying to set #{field_name} attribute: \"#{combined}\" is not valid time"
