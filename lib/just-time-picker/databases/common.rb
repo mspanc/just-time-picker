@@ -20,9 +20,6 @@ module Just
           #     - +:add_to_attr_accessible+ -> call automatically attr_accessible for attributes? (+boolean+)
           # 
           def self.just_define_time_picker(field_name, options = {})
-            attr_reader "#{field_name}_hour"
-            attr_reader "#{field_name}_minute"
-            
             validates "#{field_name}_hour",   :numericality => { :only_integer => true, :greater_than_or_equal_to => 0, :less_than_or_equal_to => 23, :message => :just_time_invalid_hour }, :allow_nil => true, :allow_blank => false
             validates "#{field_name}_minute", :numericality => { :only_integer => true, :greater_than_or_equal_to => 0, :less_than_or_equal_to => 59, :message => :just_time_invalid_minute }, :allow_nil => true, :allow_blank => false
 
@@ -39,6 +36,23 @@ module Just
             end
 
 
+            define_method field_name do 
+              DataTypes::Time.new read_attribute(field_name)
+            end
+
+
+            define_method "#{field_name}_hour" do 
+              if instance_variable_get("@#{field_name}_hour")
+                instance_variable_get("@#{field_name}_hour")
+              
+              elsif send(field_name)
+                send(field_name).hour
+
+              else
+                nil
+              end
+            end
+
             define_method "#{field_name}_hour=" do |v|
               if v.to_s.empty?
                 instance_variable_set("@#{field_name}_hour", nil)
@@ -47,6 +61,19 @@ module Just
               end
               
               just_combine_time field_name
+            end
+
+
+            define_method "#{field_name}_minute" do 
+              if instance_variable_get("@#{field_name}_minute")
+                instance_variable_get("@#{field_name}_minute")
+              
+              elsif send(field_name)
+                send(field_name).min
+
+              else
+                nil
+              end
             end
             
             define_method "#{field_name}_minute=" do |v|

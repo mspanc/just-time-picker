@@ -16,6 +16,7 @@ end
 
 require 'just-time-picker/engine'
 require 'just-time-picker/core'
+require 'just-time-picker/databases/data_types' 
 require 'just-time-picker/databases/common' 
 require 'just-time-picker/databases/activerecord' if defined?(ActiveRecord::Base)
 require 'just-time-picker/databases/mongoid'      if defined?(Mongoid::Document)
