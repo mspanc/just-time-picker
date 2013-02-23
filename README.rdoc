@@ -1,12 +1,10 @@
 = Introduction
 
 This is a simple gem for {Active Admin}[http://www.activeadmin.info] that just 
-adds support for Date/Time picker.
+adds support for Time picker.
 
 It supports both ActiveRecord for relational databases and {Mongoid}[http://www.mongoid.org] 
 for {MongoDB}[http://www.mongodb.org] schemaless database.
-
-Screenshot[https://raw.github.com/saepia/just-datetime-picker/master/doc/just-datetime-picker.png]
 
 = Usage
 
@@ -14,16 +12,18 @@ Screenshot[https://raw.github.com/saepia/just-datetime-picker/master/doc/just-da
 
 Here comes a quick code sample. Sorry, currently no detailed docs.
 
-That should create nice date/time picker for User#born_at. Associated column in the DB should be nullable.
+That should create nice date/time picker for User#notify_at. 
 
-To delete previously stored date/time just make all fields blank (date, hour and minute).
+Associated column in the DB should can have type of :integer with limit set to 6 or :time. It has to be nullable.
+
+To delete previously stored time just make all fields blank (hour and minute).
 
 === Migration (if you use ActiveRecord)
 
   class CreateUsers < ActiveRecord::Migration
     def change
       create_table :users do |t|
-        t.datetime  :born_at
+        t.time  :notify_at # You can also use :integer with :limit => 6
 
         t.timestamps
       end
@@ -36,16 +36,16 @@ To delete previously stored date/time just make all fields blank (date, hour and
 ==== ActiveRecord
 
   class User < ActiveRecord::Base
-    just_define_datetime_picker :born_at, :add_to_attr_accessible => true
-    validates :born_at, :presence => true
+    just_define_time_picker :notify_at, :add_to_attr_accessible => true
+    validates :notify_at, :presence => true
   end
 
 ==== Mongoid
 
   class User
     include Mongoid::Document
-    field :born_at, type: DateTime
-    just_define_datetime_picker :born_at, :add_to_attr_accessible => true
+    field :notify_at, type: Time
+    just_define_time_picker :notify_at, :add_to_attr_accessible => true
   end
   
 You must place "mongoid" gem BEFORE "just-datetime-picker" gem in your Gemfile!
@@ -55,7 +55,7 @@ You must place "mongoid" gem BEFORE "just-datetime-picker" gem in your Gemfile!
   ActiveAdmin.register User do
     form do |f|
       f.inputs do
-        f.input :born_at, :as => :just_datetime_picker
+        f.input :notify_at, :as => :just_time_picker
       end
 
       f.buttons
@@ -76,13 +76,13 @@ using the latest version of rubygems:
 
 Then you can install the gem as follows:
 
-  $ gem install just-datetime-picker
+  $ gem install just-time-picker
 
 === Bundler
 
 Add to your Gemfile:
 
-  gem "just-datetime-picker"
+  gem "just-time-picker"
 
 and then type:
 
@@ -90,7 +90,7 @@ and then type:
 
 === From the GitHub source
 
-The source code is available at https://github.com/saepia/just-datetime-picker.
+The source code is available at https://github.com/saepia/just-time-picker.
 You can either clone the git repository or download a tarball or zip file.
 Once you have the source, you can unpack it and use from wherever you downloaded.
 
@@ -100,26 +100,18 @@ Once you have the source, you can unpack it and use from wherever you downloaded
 
 If you use Rails >= 3.1 AND ActiveAdmin >= 0.5.0 just add this line to active_admin.css.scss
 
-  @import "just_datetime_picker/base";
+  @import "just_time_picker/base";
 
-Otherwise, just manually append the code from {this file}[https://raw.github.com/saepia/just-datetime-picker/master/app/assets/stylesheets/just_datetime_picker/base.css] 
+Otherwise, just manually append the code from {this file}[https://raw.github.com/saepia/just-time-picker/master/app/assets/stylesheets/just_time_picker/base.css] 
 to your CSS stylesheet.
 
 In ActiveAdmin 0.4.x you must strip body.active_admin from CSS declarations.
 
-=== JavaScript
-
-If you use nested set and dynamically create date or date/time pickers,
-they {won't be active by default due to bug in Active Admin}[https://github.com/gregbell/active_admin/issues/1651].
-
-To overcome that, if you use Rails >= 3.1 just add this line to active_admin.js
-
-  //= require just_datetime_picker/nested_form_workaround
-
-Otherwise, just manually append the code from {this file}[https://raw.github.com/saepia/just-datetime-picker/master/app/assets/javascripts/just_datetime_picker/nested_form_workaround.js] 
-to your JS script.
-
 = Additional info
+
+== Available locales
+
+en, pl, zh-CN
 
 == Versions known to work
 
@@ -141,30 +133,6 @@ This code is licensed under GPLv3[http://www.gnu.org/licenses/gpl.html].
 
 == ChangeLog
 
-=== 0.0.6 (February 23, 2013)
+=== 0.0.1 (February 23, 2013)
 
-* Fixed nested form workaround - do not use obsolete jQuery live() syntax ({Marcin Lewandowski}[https://github.com/saepia])
-* Allow to set date time to null value (thanks to {yaoquan}[https://github.com/yaoquan] for pointing this out)
-
-=== 0.0.5 (September 28, 2012)
-
-* Changed dependency of ActiveAdmin 0.5.0 to 0.4.4 ({Marcin Lewandowski}[https://github.com/saepia])
-
-=== 0.0.4 (September 28, 2012)
-
-* Fixed bug that caused "Invalid date" error if date field was empty which effectively made all date/time picker fields required, even if there were no associated validations ({Marcin Lewandowski}[https://github.com/saepia])
-
-=== 0.0.3 (September 21, 2012)
-
-* Added mongoid[http://www.mongoid.org] support (doabit[https://github.com/doabit] & {Marcin Lewandowski}[https://github.com/saepia])
-* Added zh-CN locale (doabit[https://github.com/doabit])
-* Refactored gem building stuff (doabit[https://github.com/doabit] & {Marcin Lewandowski}[https://github.com/saepia])
-* Refactored CSS and JS to use total power of assets pipeline ({Marcin Lewandowski}[https://github.com/saepia])
-
-=== 0.0.2 (September 9, 2012)
-
-* Fixed bug that caused date/time fields' validations to always fail on record update if such field was not modified ({Marcin Lewandowski}[https://github.com/saepia])
-
-=== 0.0.1 (September 7, 2012)
-
-* Initial release ({Marcin Lewandowski}[https://github.com/saepia])
+* Initial release based on {just-datetime-picker}[https://github.com/saepia/just-datetime-picker] 0.0.6 ({Marcin Lewandowski}[https://github.com/saepia])

@@ -1,6 +1,6 @@
 module Formtastic
   module Inputs
-    class JustDatetimePickerInput 
+    class JustTimePickerInput 
       include ::Formtastic::Inputs::Base
 
       def to_html
@@ -29,11 +29,9 @@ module Formtastic
           minute_value = sprintf("%02d", minute_value)
           
           label_html <<
-          builder.text_field("#{method}_date", input_html_options.merge({ :class => "just-datetime-picker-field just-datetime-picker-date datepicker", :value => builder.object.send("#{method}_date"), :maxlength => 10, :size => 10 })) <<
-
-          builder.text_field("#{method}_time_hour", input_html_options.merge({ :class => "just-datetime-picker-field just-datetime-picker-time just-datetime-picker-time-hour", :value => hour_value, :maxlength => 2, :size => 2 })) <<
+          builder.text_field("#{method}_time_hour", input_html_options.merge({ :class => "just-time-picker-field just-time-picker-time just-time-picker-time-hour", :value => hour_value, :maxlength => 2, :size => 2 })) <<
           ":" <<
-          builder.text_field("#{method}_time_minute", input_html_options.merge({ :class => "just-datetime-picker-field just-datetime-picker-time just-datetime-picker-time-minute", :value => minute_value, :maxlength => 2, :size => 2 }))
+          builder.text_field("#{method}_time_minute", input_html_options.merge({ :class => "just-time-picker-field just-time-picker-time just-time-picker-time-minute", :value => minute_value, :maxlength => 2, :size => 2 }))
         end
       end
     end

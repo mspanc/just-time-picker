@@ -1,0 +1,12 @@
+body.active_admin .input.just_time_picker input.just-time-picker-field {
+  width: auto !important;
+}
+
+body.active_admin .input.just_time_picker input.just-time-picker-time-hour {
+  margin-right: 1ex;
+}
+
+body.active_admin .input.just_time_picker input.just-time-picker-time-minute {
+  margin-left: 1ex;
+}
+

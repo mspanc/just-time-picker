@@ -1,2 +1,2 @@
-Mongoid::Document.send :include, Just::DateTimePicker::DatabaseAbstraction::Common
+Mongoid::Document.send :include, Just::TimePicker::DatabaseAbstraction::Common
 
