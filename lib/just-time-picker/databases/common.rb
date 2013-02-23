@@ -4,23 +4,6 @@ module Just
       module Common
         extend ActiveSupport::Concern
         
-        class JustDateValidator < ActiveModel::EachValidator
-          def validate_each(record, attribute, value)
-            return if value.nil?
-            return if value.to_s.empty?
-            
-            begin
-              Date.parse(value)
-            rescue ArgumentError
-              if defined?(Mongoid) and record.class.included_modules.include? Mongoid::Document
-                record.errors[attribute] << I18n.t("mongoid.errors.messages.just_time_invalid_date")
-              else
-                record.errors[attribute] << I18n.t("activerecord.errors.messages.just_time_invalid_date")
-              end
-            end
-          end
-        end
-
         included do
           # Defines attribute specified as +field_name+ as field that will
           # be underlying storage for Just Time Picker.
@@ -53,7 +36,8 @@ module Just
               self.errors[minute_attribute].each{ |e| self.errors[field_name] << e }
               
               self.errors[field_name].uniq!
-            end          
+            end
+
 
             define_method "#{field_name}_hour=" do |v|
               if v.to_s.empty?
@@ -98,7 +82,9 @@ module Just
 
               combined = "#{sprintf("%02d", instance_variable_get("@#{field_name}_hour"))}:#{sprintf("%02d", instance_variable_get("@#{field_name}_minute"))}:00"
               begin
-                self.send("#{field_name}=", Time.zone.parse(combined))
+                Time.zone.parse(combined)
+
+                self.send("#{field_name}=", combined)
 
               rescue ArgumentError
                 logger.warn "Just error while trying to set #{field_name} attribute: \"#{combined}\" is not valid time"
