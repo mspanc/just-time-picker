@@ -2,10 +2,10 @@ en:
   activerecord:
     errors:
       messages:
-        just_time_invalid_time_hour: "Invalid hour"
-        just_time_invalid_time_minute: "Invalid minutes"
+        just_time_invalid_hour: "Invalid hour"
+        just_time_invalid_minute: "Invalid minutes"
   mongoid:
     errors:
       messages:
-        just_time_invalid_time_hour: "Invalid hour"
-        just_time_invalid_time_minute: "Invalid minutes"
+        just_time_invalid_hour: "Invalid hour"
+        just_time_invalid_minute: "Invalid minutes"
