@@ -1,0 +1,170 @@
+= Introduction
+
+This is a simple gem for {Active Admin}[http://www.activeadmin.info] that just 
+adds support for Date/Time picker.
+
+It supports both ActiveRecord for relational databases and {Mongoid}[http://www.mongoid.org] 
+for {MongoDB}[http://www.mongodb.org] schemaless database.
+
+Screenshot[https://raw.github.com/saepia/just-datetime-picker/master/doc/just-datetime-picker.png]
+
+= Usage
+
+== Code samples
+
+Here comes a quick code sample. Sorry, currently no detailed docs.
+
+That should create nice date/time picker for User#born_at. Associated column in the DB should be nullable.
+
+To delete previously stored date/time just make all fields blank (date, hour and minute).
+
+=== Migration (if you use ActiveRecord)
+
+  class CreateUsers < ActiveRecord::Migration
+    def change
+      create_table :users do |t|
+        t.datetime  :born_at
+
+        t.timestamps
+      end
+
+    end
+  end
+
+=== Model
+
+==== ActiveRecord
+
+  class User < ActiveRecord::Base
+    just_define_datetime_picker :born_at, :add_to_attr_accessible => true
+    validates :born_at, :presence => true
+  end
+
+==== Mongoid
+
+  class User
+    include Mongoid::Document
+    field :born_at, type: DateTime
+    just_define_datetime_picker :born_at, :add_to_attr_accessible => true
+  end
+  
+You must place "mongoid" gem BEFORE "just-datetime-picker" gem in your Gemfile!
+
+=== ActiveAdmin
+
+  ActiveAdmin.register User do
+    form do |f|
+      f.inputs do
+        f.input :born_at, :as => :just_datetime_picker
+      end
+
+      f.buttons
+    end
+  end
+
+
+= Installation
+
+== Code itself
+
+=== Gems
+
+The gems are hosted at Rubygems.org[http://rubygems.org]. Make sure you're
+using the latest version of rubygems:
+
+  $ gem update --system
+
+Then you can install the gem as follows:
+
+  $ gem install just-datetime-picker
+
+=== Bundler
+
+Add to your Gemfile:
+
+  gem "just-datetime-picker"
+
+and then type:
+
+  bundle install
+
+=== From the GitHub source
+
+The source code is available at https://github.com/saepia/just-datetime-picker.
+You can either clone the git repository or download a tarball or zip file.
+Once you have the source, you can unpack it and use from wherever you downloaded.
+
+== Assets
+
+=== CSS
+
+If you use Rails >= 3.1 AND ActiveAdmin >= 0.5.0 just add this line to active_admin.css.scss
+
+  @import "just_datetime_picker/base";
+
+Otherwise, just manually append the code from {this file}[https://raw.github.com/saepia/just-datetime-picker/master/app/assets/stylesheets/just_datetime_picker/base.css] 
+to your CSS stylesheet.
+
+In ActiveAdmin 0.4.x you must strip body.active_admin from CSS declarations.
+
+=== JavaScript
+
+If you use nested set and dynamically create date or date/time pickers,
+they {won't be active by default due to bug in Active Admin}[https://github.com/gregbell/active_admin/issues/1651].
+
+To overcome that, if you use Rails >= 3.1 just add this line to active_admin.js
+
+  //= require just_datetime_picker/nested_form_workaround
+
+Otherwise, just manually append the code from {this file}[https://raw.github.com/saepia/just-datetime-picker/master/app/assets/javascripts/just_datetime_picker/nested_form_workaround.js] 
+to your JS script.
+
+= Additional info
+
+== Versions known to work
+
+Code was tested with:
+
+* ruby[http://www.ruby-lang.org] 1.9.3-p194 [ amd64 ] and 1.9.3p286 [ i386 ] under RVM[http://www.rvm.io],
+* ActiveAdmin[http://www.activeadmin.info] 0.4.4, 0.5.0 and 0.5.1,
+* formtastic[https://github.com/justinfrench/formtastic] 2.2.1,
+* {Ruby on Rails}[http://www.rubyonrails.org] 3.2.8, 3.2.11.
+
+== License
+
+This code is licensed under GPLv3[http://www.gnu.org/licenses/gpl.html].
+
+== Authors
+
+* {Marcin Lewandowski}[https://github.com/saepia]
+* doabit[https://github.com/doabit]
+
+== ChangeLog
+
+=== 0.0.6 (February 23, 2013)
+
+* Fixed nested form workaround - do not use obsolete jQuery live() syntax ({Marcin Lewandowski}[https://github.com/saepia])
+* Allow to set date time to null value (thanks to {yaoquan}[https://github.com/yaoquan] for pointing this out)
+
+=== 0.0.5 (September 28, 2012)
+
+* Changed dependency of ActiveAdmin 0.5.0 to 0.4.4 ({Marcin Lewandowski}[https://github.com/saepia])
+
+=== 0.0.4 (September 28, 2012)
+
+* Fixed bug that caused "Invalid date" error if date field was empty which effectively made all date/time picker fields required, even if there were no associated validations ({Marcin Lewandowski}[https://github.com/saepia])
+
+=== 0.0.3 (September 21, 2012)
+
+* Added mongoid[http://www.mongoid.org] support (doabit[https://github.com/doabit] & {Marcin Lewandowski}[https://github.com/saepia])
+* Added zh-CN locale (doabit[https://github.com/doabit])
+* Refactored gem building stuff (doabit[https://github.com/doabit] & {Marcin Lewandowski}[https://github.com/saepia])
+* Refactored CSS and JS to use total power of assets pipeline ({Marcin Lewandowski}[https://github.com/saepia])
+
+=== 0.0.2 (September 9, 2012)
+
+* Fixed bug that caused date/time fields' validations to always fail on record update if such field was not modified ({Marcin Lewandowski}[https://github.com/saepia])
+
+=== 0.0.1 (September 7, 2012)
+
+* Initial release ({Marcin Lewandowski}[https://github.com/saepia])
