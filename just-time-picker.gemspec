@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "just-time-picker"
   gem.require_paths = ["lib"]
-  gem.version       = '0.0.1'
+  gem.version       = '0.0.2'
   gem.add_dependency 'formtastic', '>= 2.0.0'
   gem.add_dependency 'activeadmin', '>= 0.4.4'
 end

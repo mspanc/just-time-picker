@@ -3,6 +3,7 @@ module Just
     module DatabaseAbstraction
       module DataTypes
         class Time
+          
           def initialize(original_time)
             if original_time.nil?
               @original_time = nil
@@ -30,6 +31,12 @@ module Just
 
             "#{sprintf("%02d", hour)}:#{sprintf("%02d", min)}"
           end
+
+          def xmlschema(fraction_digits = 0)
+            @original_time.xmlschema fraction_digits
+          end
+
+          alias :iso8601 :xmlschema
         end
       end
     end
