@@ -135,6 +135,10 @@ This code is licensed under GPLv3[http://www.gnu.org/licenses/gpl.html].
 
 == ChangeLog
 
+=== 0.0.2 (March 2, 2013)
+
+* Added xmlschema and iso8601 methods to Time class ({Marcin Lewandowski}[https://github.com/saepia])
+
 === 0.0.1 (February 23, 2013)
 
 * Initial release based on {just-datetime-picker}[https://github.com/saepia/just-datetime-picker] 0.0.6 ({Marcin Lewandowski}[https://github.com/saepia])
