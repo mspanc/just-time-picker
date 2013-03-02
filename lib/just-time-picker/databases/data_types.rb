@@ -37,6 +37,12 @@ module Just
           end
 
           alias :iso8601 :xmlschema
+
+          def as_json 
+            return nil if @original_time.nil?
+
+            "#{sprintf("%02d", hour)}:#{sprintf("%02d", min)}:00"
+          end
         end
       end
     end
