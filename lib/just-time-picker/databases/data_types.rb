@@ -26,14 +26,22 @@ module Just
             @original_time.min
           end
 
-          def to_s
+          def to_s(include_seconds = false)
             return nil if @original_time.nil?
 
-            "#{sprintf("%02d", hour)}:#{sprintf("%02d", min)}"
+            if include_seconds
+              "#{sprintf("%02d", hour)}:#{sprintf("%02d", min)}:00"
+            else
+              "#{sprintf("%02d", hour)}:#{sprintf("%02d", min)}"
+            end
           end
 
           def xmlschema(fraction_digits = 0)
-            @original_time.xmlschema fraction_digits
+            if fraction_digits == 0
+              to_s true
+            else
+              "#{to_s(true)}.#{"0" * fraction_digits}"
+            end
           end
 
           alias :iso8601 :xmlschema
@@ -41,8 +49,10 @@ module Just
           def as_json 
             return nil if @original_time.nil?
 
-            "#{sprintf("%02d", hour)}:#{sprintf("%02d", min)}:00"
+            to_s true
           end
+
+
         end
       end
     end
